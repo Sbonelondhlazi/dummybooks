@@ -1,0 +1,61 @@
+##Loading libraries 
+from bs4 import BeautifulSoup
+import requests
+import pandas as pd
+import re
+
+
+##Creating empty list
+book_list=[]
+price_list=[]
+
+##Generating links for all 50 webpages
+for i in range(50):
+    html='http://books.toscrape.com/catalogue/page-'
+    page=str(i+1)
+    tail='.html'
+    urls=html+page+tail
+
+
+
+    ##Requesting and parsing html
+    url =requests.get(urls)
+
+    soup = BeautifulSoup(url.content, 'html.parser')
+    
+
+    ##Getting book titles
+    books=soup.find_all('a', title=True)
+    
+    for book in books:
+        book_list.append(book.get_text())
+
+
+
+    ##Getting Prices
+    prices = soup.find_all('p', class_="price_color")  
+     
+    for price in prices:
+        eur=price.get_text()
+        z=re.findall('£([0-9.0]+)', eur) 
+        price_list.append(float(z[0]))
+
+
+    
+
+
+##Combining the book_list and price_list
+dataset=pd.DataFrame(list(zip(book_list, price_list)), columns = ['books', 'price'])
+
+print(dataset)
+dataset.to_csv('C:/Users/Sbonelo/.spyder-py3/books_scrapped.txt',sep=',', index=False)
+
+##Saving to csv
+#with open("C:/Users/Sbonelo/.spyder-py3/books_scrapped.txt", "r") as file:
+ #   file_stuff = file.read()
+
+#print(file_stuff)
+
+print("average_price", dataset["price"].mean())
+print("maximum_price", dataset["price"].max())
+print("minimum_price", dataset["price"].min())
