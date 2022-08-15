@@ -32,8 +32,8 @@ def find_books():
     books = soup.find_all('li', class_='col-xs-6 col-sm-4 col-md-3 col-lg-3')    
     for book in books:
         book_title = book.article.h3.a['title']
-        book_price_euro = book.article.find('div', class_='product_price').p.text
-        book_price =re.findall('£([0-9.0]+)', book_price_euro) 
+        book_price_pound = book.article.find('div', class_='product_price').p.text
+        book_price =re.findall('£([0-9.0]+)', book_price_pound) 
         avail=book.article.find('div', class_='product_price').find('p', class_='instock availability').text.strip()
         stars = book.article.p['class']
         star = stars[1]
