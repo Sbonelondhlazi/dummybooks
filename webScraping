@@ -102,5 +102,5 @@ dataset = pd.DataFrame(list(zip(book_list, category_list,star_list,price_list,st
 print(dataset)
 
 #Saving my Dataset to csv
-dataset.to_csv('C:/Users/Sbonelo/.spyder-py3/books_scrapped.csv',sep=',', index=False)
+dataset.to_csv('C:/Users/Sbonelo/.spyder-py3/books_scraped.csv',sep=',', index=False)
 
